@@ -15,7 +15,7 @@ class Home extends Component<{}, MyState> {
   }
 
   onEnterKeyDown = (e: KeyboardEvent) => {
-    if (e.keyCode == 13 || e.key == "Enter") {
+    if (e.keyCode === 13 || e.key === "Enter") {
       this.search();
     }
   }
@@ -30,7 +30,6 @@ class Home extends Component<{}, MyState> {
 
   private search() {
     let inputValue = (document.getElementById("search-box") as HTMLInputElement).value;
-    console.log(inputValue);
     this.setState({ query: inputValue });
   }
 

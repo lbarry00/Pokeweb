@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import Pokemon from "./Pokemon";
+import Pokemon from "./pokemon/Pokemon";
 
-type MyState = {
+type State = {
   query: string,
  };
 
-class Home extends Component<{}, MyState> {
+class Home extends Component<{}, State> {
   constructor(props) {
     super(props);
 

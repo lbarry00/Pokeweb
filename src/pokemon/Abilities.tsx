@@ -4,11 +4,26 @@ type Props = {
   abilities: any,
 }
 
-class Abilities extends Component<Props, any> {
-  render() {
-    let abilitiesList = {}; // will hold key/value pairs of the name/description of the abilities
+type State = {
+  abilitiesList: any,
+  abilitiesRetrieved: boolean,
+}
 
-    console.log(this.props.abilities);
+class Abilities extends Component<Props, State> {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      abilitiesList: [],
+      abilitiesRetrieved: false
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.abilities === this.props.abilities) {
+      return;
+    }
+
     for (const ability of this.props.abilities) {
       if (typeof ability === "undefined") { // there may be gaps in the props.abilities array. just ignore these
         continue;
@@ -28,6 +43,8 @@ class Abilities extends Component<Props, any> {
          }
        };
 
+       const currentComponent = this; // for referencing "Abilities" from within the scope of the request (below)
+
        // Send the request, handle the response for the callback
        request(options, function(error, response, body) {
          // grab the description and name
@@ -36,23 +53,32 @@ class Abilities extends Component<Props, any> {
          let name = jsonBody.name;
 
          // add to the key value pairs list
-         abilitiesList[name] = description;
+         currentComponent.state.abilitiesList.push([name, description]);
        });
     }
+    this.setState({ abilitiesRetrieved: true });
+  }
 
-    console.log(abilitiesList);
-    console.log(JSON.stringify(abilitiesList));
+  render() {
+    console.log(this.state.abilitiesList);
 
-    const abilitiesComponent = Object.entries(abilitiesList).map(([key,value])=>{
-      return (
-          <p>{key} : {value.toString()}</p>
-      );
-    })
+    let abilityComponent;
+    if (this.state.abilitiesRetrieved) {
+      abilityComponent = this.state.abilitiesList.map( ability => (
+        <p key={ability[0]}>
+        {ability[0]}: {ability[1]}
+        </p>
+      ));
+    } else {
+      abilityComponent = <p>No abilities found.</p>
+    }
+
+
 
     return(
       <div className="abilities">
         <h3>Abilities</h3>
-          {abilitiesComponent}
+          {abilityComponent}
       </div>
     )
   }

@@ -10,13 +10,16 @@ type Props = {
 // define the types for the states
 type State = {
   name: string,
-  typesRetrieved: boolean,
   abilitiesRetrieved: boolean,
+  statsRetrieved: boolean
+  typesRetrieved: boolean,
+  dummy: number,
  };
 
  // Array for sorting pokemon types by "slot" (ie. fire before flying for Charizard)
 let sortedTypesArray = [];
 let sortedAbilitiesArray = [];
+let statsArray = [];
 
 class Pokemon extends Component<Props, State> {
 
@@ -25,8 +28,11 @@ class Pokemon extends Component<Props, State> {
 
     this.state = {
       name: "",
+      abilitiesRetrieved: false,
+      statsRetrieved: false,
       typesRetrieved: false,
-      abilitiesRetrieved: false
+      dummy: 0
+
     };
   }
 
@@ -80,6 +86,9 @@ class Pokemon extends Component<Props, State> {
 
     let abilities = jsonBody.abilities;
     this.handleAbilities(abilities);
+  
+    let stats = jsonBody.stats;
+    this.handleStats(stats);
   }
 
   handleTypes(types: any) {
@@ -101,6 +110,17 @@ class Pokemon extends Component<Props, State> {
       this.setState({ abilitiesRetrieved: true });
     } else {
       this.setState({ abilitiesRetrieved: false });
+    }
+  }
+
+  handleStats(stats: any) {
+    if (stats) {
+      for (const ability of stats) {
+        sortedAbilitiesArray[ability.slot] = ability.ability;
+      }
+      this.setState({ statsRetrieved: true });
+    } else {
+      this.setState({ statsRetrieved: false });
     }
   }
 

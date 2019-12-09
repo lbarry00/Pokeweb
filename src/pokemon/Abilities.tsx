@@ -19,44 +19,42 @@ class Abilities extends Component<Props, State> {
     }
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.abilities === this.props.abilities) {
-      return;
-    }
+  componentDidUpdate() {
+    if (!this.state.abilitiesRetrieved) {
+      for (const ability of this.props.abilities) {
+        if (typeof ability === "undefined") { // there may be gaps in the props.abilities array. just ignore these
+          continue;
+        }
 
-    for (const ability of this.props.abilities) {
-      if (typeof ability === "undefined") { // there may be gaps in the props.abilities array. just ignore these
-        continue;
+        // Request information on the ability
+        var request = require("request");
+        var options = {
+          method: 'GET',
+          url: ability.url,
+          headers: {
+            'cache-control': 'no-cache',
+             Connection: 'keep-alive',
+             Host: 'pokeapi.co',
+             'Cache-Control': 'no-cache',
+             Accept: '*/*'
+           }
+         };
+
+         const currentComponent = this; // for referencing "Abilities" from within the scope of the request (below)
+
+         // Send the request, handle the response for the callback
+         request(options, function(error, response, body) {
+           // grab the description and name
+           let jsonBody = JSON.parse(body);
+           let description = jsonBody.effect_entries[0].effect;
+           let name = jsonBody.name;
+
+           // add to the key value pairs list
+           currentComponent.state.abilitiesList.push([name, description]);
+         });
       }
-
-      // Request information on the ability
-      var request = require("request");
-      var options = {
-        method: 'GET',
-        url: ability.url,
-        headers: {
-          'cache-control': 'no-cache',
-           Connection: 'keep-alive',
-           Host: 'pokeapi.co',
-           'Cache-Control': 'no-cache',
-           Accept: '*/*'
-         }
-       };
-
-       const currentComponent = this; // for referencing "Abilities" from within the scope of the request (below)
-
-       // Send the request, handle the response for the callback
-       request(options, function(error, response, body) {
-         // grab the description and name
-         let jsonBody = JSON.parse(body);
-         let description = jsonBody.effect_entries[0].effect;
-         let name = jsonBody.name;
-
-         // add to the key value pairs list
-         currentComponent.state.abilitiesList.push([name, description]);
-       });
+      this.setState({ abilitiesRetrieved: true });
     }
-    this.setState({ abilitiesRetrieved: true });
   }
 
   render() {

@@ -44,6 +44,7 @@ class Pokemon extends Component<Props, State> {
       return;
     } else {
       sortedTypesArray = [];
+      statsArray = [];
       // clear the types array so it's reset for new
     }
 
@@ -87,7 +88,7 @@ class Pokemon extends Component<Props, State> {
 
     let abilities = jsonBody.abilities;
     this.handleAbilities(abilities);
-  
+
     let stats = jsonBody.stats;
     this.handleStats(stats);
   }
@@ -116,7 +117,7 @@ class Pokemon extends Component<Props, State> {
 
   handleStats(stats: any) {
     if (stats) {
-      let statName, statValue; 
+      let statName, statValue;
       for (const stat of stats) {
         statName = stat.stat.name;
         statValue = stat.base_stat;

@@ -2,37 +2,39 @@ import React, { Component } from "react";
 
 type Props = {
   abilities: any,
+  query: any,
 }
 
 type State = {
-  abilitiesList: any,
   abilitiesRetrieved: boolean,
 }
+
+let abilitiesList = [];
+let prevQuery = "";
 
 class Abilities extends Component<Props, State> {
 
   constructor(props) {
     super(props);
 
+    prevQuery = this.props.query;
+
     this.state = {
-      abilitiesList: [],
-      abilitiesRetrieved: false
+      abilitiesRetrieved: false,
     }
   }
 
-  handleResponse = (error: any, response: any, body: any) => {
-    // grab the description and name
-    let jsonBody = JSON.parse(body);
-    let description = jsonBody.effect_entries[0].short_effect;
-    let name = jsonBody.name;
-
-    // add to the key value pairs list
-    this.state.abilitiesList.push([name, description]);
-
-    this.setState({ abilitiesRetrieved: true });
+  // Does not execute prior to handle
+  getSnapshotBeforeUpdate(prevProps) {
+    if (this.props.query === prevProps.query) {
+      return;
+    } else {
+      abilitiesList = [];
+      this.setState({abilitiesRetrieved: false});
+    }
   }
 
-  render() {
+  componentDidUpdate() {
     if (!this.state.abilitiesRetrieved) {
       for (const ability of this.props.abilities) {
         if (typeof ability === "undefined") { // there may be gaps in the props.abilities array. just ignore these
@@ -54,13 +56,47 @@ class Abilities extends Component<Props, State> {
          };
 
          // Send the request, handle the response for the callback
-         request(options, this.handleResponse);
+        request(options, this.handleResponse);
+      }
+    }
+  }
+
+  handleResponse = (error: any, response: any, body: any) => {
+ 
+    // grab the description and name
+    let jsonBody = JSON.parse(body);
+    let description = jsonBody.effect_entries[0].short_effect;
+    let name = jsonBody.name;
+
+    // add to the key value pairs list
+
+    // Since abilities can have undefined entries in the API, only count the valid ones
+    // We would LIKE to remove them but React won't let us.
+    let abilityCount = 0;
+    for (const ability of this.props.abilities) {
+      if(ability) {
+        abilityCount++;
       }
     }
 
-    let abilityComponent;
+    if (abilitiesList.length < abilityCount) {
+      abilitiesList.push([name, description]);
+    }
+
+    this.setState({ abilitiesRetrieved: true });
+  }
+
+  render() {
+    if (this.props.query !== prevQuery) {
+      abilitiesList = [];
+    }
+
+    prevQuery = this.props.query;
+
+    let abilityComponent: any;
     if (this.state.abilitiesRetrieved) {
-      abilityComponent = this.state.abilitiesList.map( ability => (
+      //abilityComponent = this.state.abilitiesList.map( ability => (
+      abilityComponent = abilitiesList.map( ability => (
         <p key={ability[0]}>
         {ability[0]}: {ability[1]}
         </p>

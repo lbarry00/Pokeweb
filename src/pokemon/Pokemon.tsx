@@ -146,7 +146,7 @@ class Pokemon extends Component<Props, State> {
     const abilitiesRetrieved = this.state.abilitiesRetrieved;
     let abilitiesComponent;
     if (abilitiesRetrieved) {
-      abilitiesComponent = <Abilities abilities={sortedAbilitiesArray} />
+      abilitiesComponent = <Abilities abilities={sortedAbilitiesArray} query={this.props.query} />
     } else {
       abilitiesComponent = <div className = "abilities"></div>
     }

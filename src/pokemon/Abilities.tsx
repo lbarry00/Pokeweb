@@ -10,6 +10,7 @@ type State = {
 }
 
 class Abilities extends Component<Props, State> {
+
   constructor(props) {
     super(props);
 
@@ -19,7 +20,19 @@ class Abilities extends Component<Props, State> {
     }
   }
 
-  componentDidUpdate() {
+  handleResponse = (error: any, response: any, body: any) => {
+    // grab the description and name
+    let jsonBody = JSON.parse(body);
+    let description = jsonBody.effect_entries[0].short_effect;
+    let name = jsonBody.name;
+
+    // add to the key value pairs list
+    this.state.abilitiesList.push([name, description]);
+
+    this.setState({ abilitiesRetrieved: true });
+  }
+
+  render() {
     if (!this.state.abilitiesRetrieved) {
       for (const ability of this.props.abilities) {
         if (typeof ability === "undefined") { // there may be gaps in the props.abilities array. just ignore these
@@ -40,25 +53,10 @@ class Abilities extends Component<Props, State> {
            }
          };
 
-         const currentComponent = this; // for referencing "Abilities" from within the scope of the request (below)
-
          // Send the request, handle the response for the callback
-         request(options, function(error, response, body) {
-           // grab the description and name
-           let jsonBody = JSON.parse(body);
-           let description = jsonBody.effect_entries[0].effect;
-           let name = jsonBody.name;
-
-           // add to the key value pairs list
-           currentComponent.state.abilitiesList.push([name, description]);
-         });
+         request(options, this.handleResponse);
       }
-      this.setState({ abilitiesRetrieved: true });
     }
-  }
-
-  render() {
-    console.log(this.state.abilitiesList);
 
     let abilityComponent;
     if (this.state.abilitiesRetrieved) {
@@ -70,8 +68,6 @@ class Abilities extends Component<Props, State> {
     } else {
       abilityComponent = <p>No abilities found.</p>
     }
-
-
 
     return(
       <div className="abilities">

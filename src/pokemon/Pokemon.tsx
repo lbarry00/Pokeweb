@@ -44,6 +44,7 @@ class Pokemon extends Component<Props, State> {
       return;
     } else {
       sortedTypesArray = [];
+      sortedAbilitiesArray = [];
       statsArray = [];
       // clear the types array so it's reset for new
     }
@@ -81,6 +82,7 @@ class Pokemon extends Component<Props, State> {
     // The API response body is returned as a raw string.
     // Use JSON.parse() to change the response body (the data we want) into a JSON object that we can access
     let jsonBody = JSON.parse(body);
+    console.log("Pokemon Response");
     console.log(jsonBody);
 
     let types = jsonBody.types; // JSON array of the pokemon's types
@@ -125,7 +127,6 @@ class Pokemon extends Component<Props, State> {
         //statsArray[statName] = statValue;
         statsArray.push([statName, statValue]);
       }
-      console.log('Stats array: ' + statsArray);
       this.setState({ statsRetrieved: true });
     } else {
       this.setState({ statsRetrieved: false });

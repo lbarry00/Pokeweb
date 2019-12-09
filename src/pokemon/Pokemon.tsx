@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import Types from "./Types"
 import Abilities from "./Abilities"
+import Stats from "./Stats"
+import Types from "./Types"
 
 // define the types for the props
 type Props = {
@@ -115,9 +116,15 @@ class Pokemon extends Component<Props, State> {
 
   handleStats(stats: any) {
     if (stats) {
-      for (const ability of stats) {
-        sortedAbilitiesArray[ability.slot] = ability.ability;
+      let statName, statValue; 
+      for (const stat of stats) {
+        statName = stat.stat.name;
+        statValue = stat.base_stat;
+        // It would be nice to treat this as an associative array, but it screws up the scope
+        //statsArray[statName] = statValue;
+        statsArray.push([statName, statValue]);
       }
+      console.log('Stats array: ' + statsArray);
       this.setState({ statsRetrieved: true });
     } else {
       this.setState({ statsRetrieved: false });
@@ -142,10 +149,19 @@ class Pokemon extends Component<Props, State> {
       abilitiesComponent = <div className = "abilities"></div>
     }
 
+    const statsRetrieved = this.state.statsRetrieved;
+    let statsComponent;
+    if (statsRetrieved) {
+      statsComponent = <Stats statsArray={statsArray} />
+    } else {
+      statsComponent = <div className = "stats"></div>
+    }
+
     return(
       <div className="Pokemon">
         {typeComponent}
         {abilitiesComponent}
+        {statsComponent}
       </div>
     )
   }

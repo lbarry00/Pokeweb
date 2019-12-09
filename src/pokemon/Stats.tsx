@@ -7,9 +7,9 @@ type Props = {
 class Stats extends Component<Props, any> {
 
   render() {
-    const statsItems = this.props.statsArray.map( type => (
-      <p key={type}>
-      {type}
+    const statsItems = this.props.statsArray.map( stat => (
+      <p key={stat}>
+          {stat[0]} = {stat[1].toString()}
       </p>
     ));
 

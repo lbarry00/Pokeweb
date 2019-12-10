@@ -17,7 +17,7 @@ class Abilities extends Component<Props, State> {
 
   constructor(props) {
     super(props);
-
+    console.log(`Constructing`);
     prevQuery = this.props.query;
 
     this.state = {
@@ -25,102 +25,51 @@ class Abilities extends Component<Props, State> {
     }
   }
 
-  // Does not execute prior to handle
-  /*
-  getSnapshotBeforeUpdate(prevProps) {
-    if (this.props.query === prevProps.query) {
-      return;
-    } else {
-      abilitiesList = [];
-      this.setState({abilitiesRetrieved: false});
-    }
-  }
-  */
-
   componentDidUpdate() {
-
+    console.log(`Resetting abilities in CDU`)
+    abilitiesList = [];
   }
 
   handleResponse = (error: any, response: any, body: any) => {
     // grab the description and name
+    console.log(`handling response`); 
     let jsonBody = JSON.parse(body);
     let description = jsonBody.effect_entries[0].short_effect;
     let name = jsonBody.name;
-    
-    console.log(`Ability JSON response:`);
-    console.log(jsonBody);
 
-    if (this.props.query !== prevQuery) {
-      console.log(`Query transition. New query: ${this.props.query}; Old query: ${prevQuery}`)
-      abilitiesList = [];
-      this.setState({ abilitiesRetrieved: false});
-      prevQuery = this.props.query;
-    } else {
-      console.log(`No query transition. New query: ${this.props.query}; Old query: ${prevQuery}`)
-    }
-    // add to the key value pairs list
+    abilitiesList.push([name, description]);
+    console.log(`Pushed ${name}:${description} to...`);
+    console.log(abilitiesList);
 
-    // Since abilities can have undefined entries in the API, only count the valid ones
-    // We would LIKE to remove them but React won't let us.
-    let abilityCount = 0;
-    for (const ability of this.props.abilities) {
-      if(ability) {
-        abilityCount++;
-      }
-    }
-    
-    if (abilitiesList.length < abilityCount) {
-      abilitiesList.push([name, description]);
-    }
-
-    console.log(`added ${name}:${description} to ${abilitiesList}`);
-    this.setState({ abilitiesRetrieved: true });
   }
 
   render() {
-    /*
-    console.log(`Props query: ${this.props.query}, previous query: ${prevQuery}`);
-    if (this.props.query !== prevQuery) {
-      abilitiesList = [];
-      prevQuery = this.props.query;
-      this.setState({abilitiesRetrieved: false});  
-      console.log(`Inside if, props query: ${this.props.query}, previous query: ${prevQuery}, abilities list: ${abilitiesList}`);
-    } else {
-      console.log(`Inside else, props query: ${this.props.query}, previous query: ${prevQuery}, abilities list: ${abilitiesList}`);
-    }
-     */
-    
-    if (!this.state.abilitiesRetrieved) {
-      console.log(`Resetting abilities list in render`);
-      abilitiesList = [];
-      for (const ability of this.props.abilities) {
-        if (typeof ability === "undefined") { // there may be gaps in the props.abilities array. just ignore these
-          continue;
-        }
-
-        // Request information on the ability
-        var request = require("request");
-        var options = {
-          method: 'GET',
-          url: ability.url,
-          headers: {
-            'cache-control': 'no-cache',
-             Connection: 'keep-alive',
-             Host: 'pokeapi.co',
-             'Cache-Control': 'no-cache',
-             Accept: '*/*'
-           }
-         };
-
-         // Send the request, handle the response for the callback
-        request(options, this.handleResponse);
+    console.log(`rendering abilities`);
+    for (const ability of this.props.abilities) {
+      if (typeof ability === "undefined") { // there may be gaps in the props.abilities array. just ignore these
+        continue;
       }
-    }
 
+      // Request information on the ability
+      var request = require("request");
+      var options = {
+        method: 'GET',
+        url: ability.url,
+        headers: {
+          'cache-control': 'no-cache',
+           Connection: 'keep-alive',
+           Host: 'pokeapi.co',
+           'Cache-Control': 'no-cache',
+           Accept: '*/*'
+         }
+       };
+
+       // Send the request, handle the response for the callback
+      request(options, this.handleResponse);
+    }
 
     let abilityComponent: any;
     if (this.state.abilitiesRetrieved) {
-      //abilityComponent = this.state.abilitiesList.map( ability => (
       abilityComponent = abilitiesList.map( ability => (
         <p key={ability[0]}>
         {ability[0]}: {ability[1]}

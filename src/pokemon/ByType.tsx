@@ -77,7 +77,7 @@ class ByType extends Component<Props, State> {
     if (pokemon) {
       let ndx = 0;
       for (ndx = 0; ndx < pokemon.length; ndx++ ) {
-        pokemonList.push({name: pokemon[ndx].pokemon.name, key: ndx});
+        pokemonList.push({name: pokemon[ndx].pokemon.name, key: ndx, link: pokemon[ndx].pokemon.url});
       }
       this.setState({ pokemonRetrieved: true });
     } else {
@@ -90,7 +90,7 @@ class ByType extends Component<Props, State> {
       <div>
         { pokemonList.map(poke => {
           return(
-            <li key={poke.key}>{poke.name}</li>
+          <li key={poke.key}><a href={poke.link} target="_blank">{poke.name}</a></li>
           );
         })}
       </div>

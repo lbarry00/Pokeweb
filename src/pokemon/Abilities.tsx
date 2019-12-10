@@ -26,7 +26,11 @@ class Abilities extends Component<Props, State> {
   }
 
   componentDidUpdate() {
-    console.log(`Resetting abilities in CDU`)
+    console.log(`Component did update`)
+    //abilitiesList = [];
+  }
+
+  killEmAll() {
     abilitiesList = [];
   }
 
@@ -40,7 +44,7 @@ class Abilities extends Component<Props, State> {
     abilitiesList.push([name, description]);
     console.log(`Pushed ${name}:${description} to...`);
     console.log(abilitiesList);
-
+    this.setState({abilitiesRetrieved: true});
   }
 
   render() {

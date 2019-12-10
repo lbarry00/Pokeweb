@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import Home from "./Home";
 import About from "./About";
+import SearchByType from "./SearchByType";
 
 class Main extends Component {
   render() {
@@ -16,10 +17,12 @@ class Main extends Component {
           <ul className="header">
             <li><NavLink exact to="/">Home</NavLink></li>
             <li><NavLink to="/about">About</NavLink></li>
+            <li><NavLink to="/searchbytype">Search By Type</NavLink></li>
           </ul>
           <div className="content">
             <Route exact path="/" component={Home}/>
             <Route path="/about" component={About}/>
+            <Route path="/searchbytype" component={SearchByType}/>
           </div>
         </div>
       </HashRouter>

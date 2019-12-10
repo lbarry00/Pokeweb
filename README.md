@@ -11,7 +11,7 @@ This project is designed to allow users to query a variety of Pokemon informatio
 
 ## Technology
 
-This project utilized [Node.js](https://nodejs.org/en/) as the server-side environment.
+This project utilized [Node.js](https://nodejs.org/en/) as the server-side environment. It is currently deployed on a DigitalOcean droplet, with [pm2](https://pm2.keymetrics.io/) being used as a process manager for the production environment. 
 
 The UI was written with [React](https://reactjs.org/). This allowed us to create simple views that are stateful and modular. We were able to use React and ReactRouter (see below) to create a single-page application this way. 
 

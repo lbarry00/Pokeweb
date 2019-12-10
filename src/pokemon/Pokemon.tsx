@@ -14,7 +14,6 @@ type State = {
   abilitiesRetrieved: boolean,
   statsRetrieved: boolean
   typesRetrieved: boolean,
-  dummy: number,
  };
 
  // Array for sorting pokemon types by "slot" (ie. fire before flying for Charizard)
@@ -32,8 +31,6 @@ class Pokemon extends Component<Props, State> {
       abilitiesRetrieved: false,
       statsRetrieved: false,
       typesRetrieved: false,
-      dummy: 0
-
     };
   }
 

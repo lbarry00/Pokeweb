@@ -11,6 +11,7 @@ type State = {
 
 let abilitiesList = [];
 let prevQuery = "";
+let globalThermonuclearWar = false;
 
 class Abilities extends Component<Props, State> {
 
@@ -45,7 +46,18 @@ class Abilities extends Component<Props, State> {
     let jsonBody = JSON.parse(body);
     let description = jsonBody.effect_entries[0].short_effect;
     let name = jsonBody.name;
+    
+    console.log(`Ability JSON response:`);
+    console.log(jsonBody);
 
+    if (this.props.query !== prevQuery) {
+      console.log(`Query transition. New query: ${this.props.query}; Old query: ${prevQuery}`)
+      abilitiesList = [];
+      this.setState({ abilitiesRetrieved: false});
+      prevQuery = this.props.query;
+    } else {
+      console.log(`No query transition. New query: ${this.props.query}; Old query: ${prevQuery}`)
+    }
     // add to the key value pairs list
 
     // Since abilities can have undefined entries in the API, only count the valid ones
@@ -56,15 +68,17 @@ class Abilities extends Component<Props, State> {
         abilityCount++;
       }
     }
-
+    
     if (abilitiesList.length < abilityCount) {
       abilitiesList.push([name, description]);
     }
+
     console.log(`added ${name}:${description} to ${abilitiesList}`);
     this.setState({ abilitiesRetrieved: true });
   }
 
   render() {
+    /*
     console.log(`Props query: ${this.props.query}, previous query: ${prevQuery}`);
     if (this.props.query !== prevQuery) {
       abilitiesList = [];
@@ -74,8 +88,11 @@ class Abilities extends Component<Props, State> {
     } else {
       console.log(`Inside else, props query: ${this.props.query}, previous query: ${prevQuery}, abilities list: ${abilitiesList}`);
     }
+     */
     
     if (!this.state.abilitiesRetrieved) {
+      console.log(`Resetting abilities list in render`);
+      abilitiesList = [];
       for (const ability of this.props.abilities) {
         if (typeof ability === "undefined") { // there may be gaps in the props.abilities array. just ignore these
           continue;

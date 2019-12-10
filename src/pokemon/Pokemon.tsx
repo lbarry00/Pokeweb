@@ -57,7 +57,6 @@ class Pokemon extends Component<Props, State> {
         'cache-control': 'no-cache',
          Connection: 'keep-alive',
          Host: 'pokeapi.co',
-         'Cache-Control': 'no-cache',
          Accept: '*/*'
        }
      };
@@ -106,7 +105,7 @@ class Pokemon extends Component<Props, State> {
   handleAbilities(abilities: any) {
     if (abilities) {
       for (const ability of abilities) {
-        sortedAbilitiesArray[ability.slot] = ability.ability;
+        sortedAbilitiesArray.push(ability.ability.name);
       }
       this.setState({ abilitiesRetrieved: true });
     } else {
@@ -132,29 +131,9 @@ class Pokemon extends Component<Props, State> {
 
   render() {
     // detect whether types were retrieved successfully. Render appropriately
-    const typesRetrieved = this.state.typesRetrieved;
-    let typeComponent;
-    if (typesRetrieved) {
-      typeComponent = <Types typesArray={sortedTypesArray} />
-    } else {
-      typeComponent = <div className = "types"></div>
-    }
-
-    const abilitiesRetrieved = this.state.abilitiesRetrieved;
-    let abilitiesComponent;
-    if (abilitiesRetrieved) {
-      abilitiesComponent = <Abilities abilities={sortedAbilitiesArray} query={this.props.query} />
-    } else {
-      abilitiesComponent = <div className = "abilities"></div>
-    }
-
-    const statsRetrieved = this.state.statsRetrieved;
-    let statsComponent;
-    if (statsRetrieved) {
-      statsComponent = <Stats statsArray={statsArray} />
-    } else {
-      statsComponent = <div className = "stats"></div>
-    }
+    let typeComponent = this.state.typesRetrieved ? <Types typesArray={sortedTypesArray} /> : null;
+    let abilitiesComponent = this.state.abilitiesRetrieved ? <Abilities abilities={sortedAbilitiesArray} /> : null;
+    let statsComponent = this.state.statsRetrieved ? <Stats statsArray={statsArray} /> : null;
 
     return(
       <div className="Pokemon">

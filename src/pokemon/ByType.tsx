@@ -58,7 +58,7 @@ class ByType extends Component<Props, State> {
   handleResponse = (error: any, response: any, body: any) => {
     // Detect any errors and alert user accordingly
     if (response.statusCode === 404) {
-      alert("Pokemon or Index # not found.");
+      alert("Pokemon type not found.");
       return;
     } else if (response.statusCode !== 200) {
       alert("An error has occurred. Have you tried turning it off and turning it back on again? :)");
@@ -68,8 +68,6 @@ class ByType extends Component<Props, State> {
     // The API response body is returned as a raw string.
     // Use JSON.parse() to change the response body (the data we want) into a JSON object that we can access
     let jsonBody = JSON.parse(body);
-    console.log("Pokemon Response");
-    console.log(jsonBody);
 
     let pokemon = jsonBody.pokemon; // JSON array of the pokemon's types
     this.handlePokemon(pokemon);
@@ -97,7 +95,7 @@ class ByType extends Component<Props, State> {
     } else {
       pokemonComponent = <div className = "types"></div>
     }
-    
+
     return(
       <div className="PokemonList">
         {pokemonComponent}
@@ -107,7 +105,7 @@ class ByType extends Component<Props, State> {
     /*
     return (
       <div className="pokemonByName">
-        <ol>  
+        <ol>
           pokemonList.map(poke => (<li>poke</li>));
         </ol>
       </div>

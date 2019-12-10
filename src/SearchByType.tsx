@@ -37,7 +37,7 @@ class SearchByType extends Component<{}, State> {
     return (
       <div>
         <div>
-          <h2>Enter a Pokemon type</h2><br/>
+          <h2>Enter a Pokemon type:</h2><br/>
           <input type="text" id="search-box"></input>
           <input type="button" id="search-button" value="Search"></input>
         </div>

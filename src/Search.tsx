@@ -5,7 +5,7 @@ type State = {
   query: string,
  };
 
-class Home extends Component<{}, State> {
+class Search extends Component<{}, State> {
   constructor(props) {
     super(props);
 
@@ -28,6 +28,12 @@ class Home extends Component<{}, State> {
     searchBox.addEventListener("keydown", this.onEnterKeyDown);
   }
 
+  componentDidUpdate() {
+    // places the cursor into the search box
+    let searchBox: HTMLElement = document.getElementById("search-box");
+    searchBox.focus();
+  }
+
   private search() {
     let inputValue = (document.getElementById("search-box") as HTMLInputElement).value;
     this.setState({ query: inputValue });
@@ -37,7 +43,7 @@ class Home extends Component<{}, State> {
     return (
       <div>
         <div>
-          <h2>Enter a Pokemon!</h2><br/>
+          <h2>Enter a Pokemon:</h2><br/>
           <input type="text" id="search-box"></input>
           <input type="button" id="search-button" value="Search"></input>
         </div>
@@ -49,4 +55,4 @@ class Home extends Component<{}, State> {
   }
 }
 
-export default Home;
+export default Search;

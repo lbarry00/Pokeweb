@@ -8,7 +8,13 @@ Currently implemented features include:
   
   Who's That Pokemon - Provides a graphic of a randomly selected Pokemon and asks the user to guess its name. When the user correctly guesses the Pokemon's name, they are presented with another randomly selected image. It tracks the total number of guesses, the number of correct guesses, and the percentage of correct guesses.
 
+## Technology
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+It uses node.js to...
+
+The single page application is built in React.js in combination with TypeScript to help alleviate some of the more dangerous aspects of Javascript. It employs ReactRouter to help maintain URI and content integrity during navigation between components.
 
 ## Available Scripts
 

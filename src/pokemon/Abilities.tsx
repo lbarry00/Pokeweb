@@ -10,15 +10,12 @@ type State = {
 }
 
 let abilitiesList = [];
-let prevQuery = "";
-let globalThermonuclearWar = false;
 
 class Abilities extends Component<Props, State> {
 
   constructor(props) {
     super(props);
     console.log(`Constructing`);
-    prevQuery = this.props.query;
 
     this.state = {
       abilitiesRetrieved: false,
@@ -36,7 +33,7 @@ class Abilities extends Component<Props, State> {
 
   handleResponse = (error: any, response: any, body: any) => {
     // grab the description and name
-    console.log(`handling response`); 
+    console.log(`handling response`);
     let jsonBody = JSON.parse(body);
     let description = jsonBody.effect_entries[0].short_effect;
     let name = jsonBody.name;

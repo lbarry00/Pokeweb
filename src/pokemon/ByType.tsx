@@ -86,31 +86,6 @@ class ByType extends Component<Props, State> {
   }
 
   render() {
-    // detect whether types were retrieved successfully. Render appropriately
-    const pokemonRetrieved = this.state.pokemonRetrieved;
-    /*
-    let pokemonComponent;
-    if (pokemonRetrieved) {
-      pokemonComponent = <PokemonNames pokemonList={pokemonList} />
-    } else {
-      pokemonComponent = <div className = "types"></div>
-    }
-
-    return(
-      <div className="PokemonList">
-        {pokemonComponent}
-      </div>
-    )
-     */
-    /*
-    return (
-      <div className="pokemonByName">
-        <ol>
-          pokemonList.map(poke => (<li>poke</li>));
-        </ol>
-      </div>
-    );
-     */
     return (
       <div>
         { pokemonList.map(poke => {

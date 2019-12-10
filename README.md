@@ -14,7 +14,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 It uses node.js to...
 
-The single page application is built in React.js in combination with TypeScript to help alleviate some of the more dangerous aspects of Javascript. It employs ReactRouter to help maintain URI and content integrity during navigation between components.
+The single page application is built with React.js in combination with TypeScript to help alleviate some of the more dangerous aspects of Javascript. It employs ReactRouter to help maintain URI and content integrity during navigation between components.
 
 ## Available Scripts
 

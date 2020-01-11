@@ -1,0 +1,71 @@
+body {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background-color: rgba(255, 203, 5, 0.8);
+  margin: 0;
+  font-family: sans-serif;
+}
+
+#root {
+  width: 80%;
+  height: auto;
+  padding: 2em;
+  padding-top: 0.5em;
+  background-color: white;
+}
+
+h1 { // pokeweb logo
+  text-align: center;
+  font-size: 3em;
+  -webkit-text-fill-color: #ffcc03;
+  -webkit-text-stroke-width: 3px;
+  -webkit-text-stroke-color: #3c59a5;
+  text-shadow: 1px 1px #1c3060,
+               2px 2px #1c3060,
+               3px 3px #1c3060,
+               4px 4px #1c3060,
+               5px 5px #1c3060,
+               6px 6px #1c3060;
+}
+
+ul.header {
+  padding: 0;
+  margin: 0;
+  border-bottom: 4px solid #1a3783;
+  text-align: left;
+
+  li {
+    display: inline;
+    list-style-type: none;
+    margin-right: 4px;
+    a {
+      display: inline-block;
+      font-weight: bold;
+      text-decoration: none;
+      margin: 0;
+      padding: 20px;
+      border: 4px solid #1a3783;
+      border-bottom: none;
+      border-top-left-radius: 0.7em;
+      border-top-right-radius: 0.7em;
+      color: #ffcc03;
+      background-color: #5e7bc7;
+      &:hover {
+        background-color: #3c59a5;
+      }
+      &.active {
+        background-color: #1a3783;
+      }
+    }
+  }
+}
+
+
+.content {
+  background-color: #FFF;
+  padding: 20px;
+}
+.content li {
+  margin-bottom: 10px;
+}

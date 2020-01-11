@@ -1,0 +1,130 @@
+@import "./types.scss";
+
+@mixin rounded-container {
+  border: 2px solid black;
+  border-radius: 1em;
+  margin: 1em;
+}
+
+.search {
+  display: flex;
+  flex-direction:  column;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-area {
+  display: flex;
+  flex-direction: row;
+  margin: 1em;
+}
+
+#search-box {
+  width: 25em;
+}
+
+#search-button {
+  width: 6em;
+}
+
+.pokemon-top {
+  display: flex;
+  flex-direction: row;
+
+  .pokemon-left {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.sprite {
+  @include rounded-container;
+  width: auto;
+  height: 10em;
+  justify-content: center;
+  flex: none;
+}
+
+.types {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 0.5em;
+}
+
+.name-id {
+  @include rounded-container;
+  display: flex;
+  flex-direction: row;
+  padding: 0.7em;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1em;
+  font-weight: bold;
+  font-size: 1.1em;
+
+  p {
+    padding: 0.5em;
+  }
+}
+
+.abilities p {
+  margin-bottom: 0;
+  margin-left: 2em;
+  font-size: 0.8em;
+}
+
+.abilities-box {
+  @include rounded-container;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5em;
+  margin-top: 0;
+
+  p {
+    margin: 0;
+    padding: 0.5em;
+    text-align: center;
+    font-size: 1em;
+    border-bottom: 1px solid black;
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
+.stats p {
+  margin-bottom: 0;
+  margin-left: 2em;
+  font-size: 0.8em;
+}
+
+.stats-box {
+  @include rounded-container;
+  display: flex;
+  flex-direction: column;
+  margin-top: 0;
+
+
+  // individual stat name + value
+  div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    padding: 0.5em;
+    border-bottom: 1px solid black;
+    &:last-child {
+      border-bottom: none;
+    }
+
+    p {
+      padding-left: 1em;
+      padding-right: 1em;
+      margin: 0;
+      font-size: 1em;
+    }
+  }
+}

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Pokemon from "./pokemon/Pokemon";
+import "./css/search.scss";
 
 type State = {
   query: string,
@@ -41,13 +42,12 @@ class Search extends Component<{}, State> {
 
   render() {
     return (
-      <div>
-        <div>
-          <h2>Enter a Pokemon:</h2><br/>
-          <input type="text" id="search-box"></input>
+      <div className="search">
+        <div className="search-area">
+          <input type="text" id="search-box" placeholder="Search for a Pokemon"></input>
           <input type="button" id="search-button" value="Search"></input>
         </div>
-        <div>
+        <div className="search-results">
           <Pokemon query={this.state.query}/>
         </div>
       </div>

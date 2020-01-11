@@ -14,7 +14,7 @@ class Main extends Component {
     return (
       <HashRouter>
         <div>
-          <h1>Pokeweb</h1>
+          <h1>POKÉWEB</h1>
           <ul className="header">
             <li><NavLink exact to="/">Search</NavLink></li>
             <li><NavLink to="/searchbytype">Search By Type</NavLink></li>

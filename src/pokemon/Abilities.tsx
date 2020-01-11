@@ -92,14 +92,16 @@ class Abilities extends Component<Props, any> {
 
     const abilityComponent = this.props.abilities.map( ability => (
       <p key={ability}>
-      {ability}
+        {(ability.charAt(0).toUpperCase() + ability.substring(1)).replace(/-/g, ' ')}
       </p>
     ));
 
     return(
       <div className="abilities">
-        <h3>Abilities</h3>
-          {abilityComponent}
+        <p>ABILITIES</p>
+        <div className="abilities-box">
+            {abilityComponent}
+        </div>
       </div>
     )
   }

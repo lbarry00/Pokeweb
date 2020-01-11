@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import './css/wtp.css';
+import './css/wtp.scss';
 
 type State = {
   guessedCorrectly: boolean,

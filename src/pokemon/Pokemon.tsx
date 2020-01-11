@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import NameId from "./NameId"
 import Abilities from "./Abilities"
 import Stats from "./Stats"
 import Types from "./Types"
@@ -10,13 +11,12 @@ type Props = {
 
 // define the types for the states
 type State = {
-  name: string,
-  abilitiesRetrieved: boolean,
-  statsRetrieved: boolean
-  typesRetrieved: boolean,
+  dataRetrieved: boolean,
  };
 
- // Array for sorting pokemon types by "slot" (ie. fire before flying for Charizard)
+// Array for sorting pokemon types by "slot" (ie. fire before flying for Charizard)
+let pokemonId = -1;
+let spriteUrl = "";
 let sortedTypesArray = [];
 let sortedAbilitiesArray = [];
 let statsArray = [];
@@ -26,11 +26,11 @@ class Pokemon extends Component<Props, State> {
   constructor(props) {
     super(props);
 
+    spriteUrl = "";
+    pokemonId = -1;
+
     this.state = {
-      name: "",
-      abilitiesRetrieved: false,
-      statsRetrieved: false,
-      typesRetrieved: false,
+      dataRetrieved: false
     };
   }
 
@@ -40,6 +40,8 @@ class Pokemon extends Component<Props, State> {
     if (this.props.query === prevProps.query) {
       return;
     } else {
+      pokemonId = -1;
+      spriteUrl = "";
       sortedTypesArray = [];
       sortedAbilitiesArray = [];
       statsArray = [];
@@ -81,14 +83,29 @@ class Pokemon extends Component<Props, State> {
     console.log("Pokemon Response");
     console.log(jsonBody);
 
-    let types = jsonBody.types; // JSON array of the pokemon's types
+    pokemonId = jsonBody.id;
+
+    // Grab the image URL for the pokemon's sprite and parse it
+    let sprites = jsonBody.sprites;
+    this.handleSprite(sprites);
+
+    // Create a sub-object of the pokemon's types and parse
+    let types = jsonBody.types;
     this.handleTypes(types);
 
+    // parse sub-object of the pokemon's abilities
     let abilities = jsonBody.abilities;
     this.handleAbilities(abilities);
 
+    // parse sub-object of stats
     let stats = jsonBody.stats;
     this.handleStats(stats);
+
+    this.setState({ dataRetrieved: true });
+  }
+
+  handleSprite(sprites: any) {
+    spriteUrl = sprites.front_default;
   }
 
   handleTypes(types: any) {
@@ -96,49 +113,71 @@ class Pokemon extends Component<Props, State> {
       for (const type of types) {
         sortedTypesArray[type.slot] = type.type.name;
       }
-      this.setState({ typesRetrieved: true });
-    } else {
-      this.setState({ typesRetrieved: false }); // it's false by default, this is just for resetting
     }
   }
 
   handleAbilities(abilities: any) {
     if (abilities) {
       for (const ability of abilities) {
-        sortedAbilitiesArray.push(ability.ability.name);
+        let abilityName = ability.ability.name;
+
+        // remove "-" and replace with spaces. capitalize each word properly
+        abilityName = abilityName.replace("-", " ");
+        abilityName = abilityName.replace(/\b[a-z]/g, function(character) {
+          return character.toUpperCase();
+        });
+
+        sortedAbilitiesArray.push(abilityName);
       }
-      this.setState({ abilitiesRetrieved: true });
-    } else {
-      this.setState({ abilitiesRetrieved: false });
     }
   }
 
   handleStats(stats: any) {
     if (stats) {
-      let statName, statValue;
       for (const stat of stats) {
+        let statName, statValue;
         statName = stat.stat.name;
+
+        // remove "-" and replace with spaces. capitalize each word properly
+        statName = statName.replace("-", " ");
+
+        if (statName !== "hp") { // for all other stats, we want to capitalize words like normal
+
+            statName = statName.replace(/\b[a-z]/g, function(character) {
+            return character.toUpperCase();
+          });
+        } else { // for "hp", we want it all uppercase like this: "HP"
+          statName = statName.toUpperCase();
+        }
+
+
         statValue = stat.base_stat;
-        // It would be nice to treat this as an associative array, but it screws up the scope
-        //statsArray[statName] = statValue;
+
         statsArray.push([statName, statValue]);
       }
-      this.setState({ statsRetrieved: true });
-    } else {
-      this.setState({ statsRetrieved: false });
     }
   }
 
   render() {
-    // detect whether types were retrieved successfully. Render appropriately
-    let typeComponent = this.state.typesRetrieved ? <Types typesArray={sortedTypesArray} /> : null;
-    let abilitiesComponent = this.state.abilitiesRetrieved ? <Abilities abilities={sortedAbilitiesArray} /> : null;
-    let statsComponent = this.state.statsRetrieved ? <Stats statsArray={statsArray} /> : null;
+    // detect whether data was retrieved successfully. Render components appropriately
+    let spriteComponent = spriteUrl ? <img src={spriteUrl} className="sprite" alt={"Pixel art sprite of " + this.props.query} /> : null;
+    let nameIdComponent = this.state.dataRetrieved ? <NameId pokemonName={this.props.query} pokemonId= {pokemonId}/> : null;
+    let typeComponent = this.state.dataRetrieved ? <Types typesArray={sortedTypesArray} /> : null;
+    let abilitiesComponent = this.state.dataRetrieved ? <Abilities abilities={sortedAbilitiesArray} /> : null;
+    let statsComponent = this.state.dataRetrieved ? <Stats statsArray={statsArray} /> : null;
 
     return(
       <div className="Pokemon">
-        {typeComponent}
-        {abilitiesComponent}
+        <div className="pokemon-top">
+          <div className="pokemon-left">
+            {spriteComponent}
+            {typeComponent}
+          </div>
+          <div className="pokemon-right">
+            {nameIdComponent}
+            {abilitiesComponent}
+          </div>
+        </div>
         {statsComponent}
       </div>
     )

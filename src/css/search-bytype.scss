@@ -1,0 +1,177 @@
+@import "./types-colors.scss";
+
+@mixin type($type-color) {
+  background-color: $type-color;
+  border: 2px solid black;
+  border-radius: 0.5em;
+  color: white;
+  text-shadow: 0px 0px 3px black;
+}
+
+.search {
+  display: flex;
+  flex-direction:  column;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-area {
+  display: flex;
+  flex-direction: row;
+  margin: 1em;
+}
+
+#search-box-bytype {
+  width: 25em;
+}
+
+#search-button {
+  width: 6em;
+}
+
+.bytype {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  h2 {
+    margin: 0.5em;
+    padding: 0.3em 1.5em;
+  }
+}
+
+.type-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: center;
+
+  .strengths {
+    display: flex;
+    flex-direction: column;
+    margin: 1em;
+  }
+
+  .weaknesses {
+    display: flex;
+    flex-direction: column;
+    margin: 1em;
+  }
+
+  .immunities {
+    display: flex;
+    flex-direction: column;
+    margin: 1em;
+  }
+
+  p {
+    align-self: center;
+    width: 70px;
+    margin: 0.5em;
+    padding: 0.3em;
+  }
+}
+
+.pokemon-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+
+  a {
+    border: 2px solid black;
+    border-radius: 1em;
+    margin: 0.2em;
+    padding: 0.5em;
+    background-color: #EDEDED;
+    color: #3c59a5;
+    text-decoration: none;
+
+    &:visited {
+      color: #3c59a5;
+    }
+
+    &:hover {
+      color: red;
+      text-decoration: underline;
+    }
+  }
+}
+
+.bytype {
+  .bug {
+    @include type($bug);
+  }
+
+  .electric {
+    @include type($electric);
+  }
+
+  .fire {
+    @include type($fire);
+  }
+
+  .grass {
+    @include type($grass);
+  }
+
+  .normal {
+    @include type($normal);
+  }
+
+  .rock {
+    @include type($rock);
+  }
+
+  .dark {
+    @include type($dark);
+  }
+
+  .fairy {
+    @include type($fairy);
+  }
+
+  .flying {
+    @include type($flying);
+  }
+
+  .ground {
+    @include type($ground);
+  }
+
+  .poison {
+    @include type($poison);
+  }
+
+  .steel {
+    @include type($steel);
+  }
+
+  .dragon {
+    @include type($dragon);
+  }
+
+  .fighting {
+      @include type($fighting);
+  }
+
+  .ghost {
+    @include type($ghost);
+  }
+
+  .ice {
+    @include type($ice);
+  }
+
+  .psychic {
+    @include type($psychic);
+  }
+
+  .water {
+    @include type($water);
+  }
+
+}

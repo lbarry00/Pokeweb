@@ -1,5 +1,26 @@
+.guess-top-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.guess-left {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1.5;
+}
+
+.guess-right {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 2em;
+}
+
 .sprite-img {
-  width: 19%;
-  height: auto;
   border: 2px solid black;
+  align-self: stretch;
+  width: 100%;
+  display: block;
+  min-width: 96px;
 }

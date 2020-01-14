@@ -9,15 +9,26 @@ body {
 
 #root {
   width: 80%;
-  height: auto;
-  padding: 2em;
-  padding-top: 0.5em;
+  padding: 0.5em 2em;
+  padding-bottom: 0em;
   background-color: white;
 }
 
-h1 { // pokeweb logo
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  align-content: flex-end;
+  border-bottom: 4px solid #1a3783;
+}
+
+// Pokeweb logo
+h1 {
+  margin: 0.2em;
   text-align: center;
   font-size: 3em;
+  letter-spacing: 4px;
   -webkit-text-fill-color: #ffcc03;
   -webkit-text-stroke-width: 3px;
   -webkit-text-stroke-color: #3c59a5;
@@ -29,14 +40,13 @@ h1 { // pokeweb logo
                6px 6px #1c3060;
 }
 
-ul.header {
+.header-nav {
   padding: 0;
   margin: 0;
-  border-bottom: 4px solid #1a3783;
   text-align: left;
 
   li {
-    display: inline;
+    display: inline-block;
     list-style-type: none;
     margin-right: 4px;
     a {
@@ -44,7 +54,7 @@ ul.header {
       font-weight: bold;
       text-decoration: none;
       margin: 0;
-      padding: 20px;
+      padding: 10px 20px;
       border: 4px solid #1a3783;
       border-bottom: none;
       border-top-left-radius: 0.7em;

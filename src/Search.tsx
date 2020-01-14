@@ -27,12 +27,18 @@ class Search extends Component<{}, State> {
 
     let searchBox: HTMLElement = document.getElementById("search-box");
     searchBox.addEventListener("keydown", this.onEnterKeyDown);
+
+    if (window.name !== "") {
+      this.setState({ query: window.name });
+      window.name = "";
+    }
   }
 
   componentDidUpdate() {
     // places the cursor into the search box
     let searchBox: HTMLElement = document.getElementById("search-box");
     searchBox.focus();
+
   }
 
   private search() {

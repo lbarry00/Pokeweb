@@ -93,12 +93,27 @@ class WhosThatPokemon extends Component<any, State> {
     }
   }
 
+  resetGame(): void {
+    pokemonToGuess = "";
+    index = -1;
+    spriteUrl = "";
+
+    correctGuesses = 0;
+    guessCount = 0;
+
+    this.setState({guessedCorrectly: false, validPokemonToGuess: false});
+
+  }
+
   componentDidMount() {
-    let button: HTMLElement = document.getElementById("guess-button");
-    button.addEventListener("click", (e:Event) => this.guess());
+    let guessButton: HTMLElement = document.getElementById("guess-button");
+    guessButton.addEventListener("click", (e:Event) => this.guess());
 
     let guessBox: HTMLElement = document.getElementById("guess-box");
     guessBox.addEventListener("keydown", this.onEnterKeyDown);
+
+    let resetButton: HTMLElement = document.getElementById("reset-button");
+    resetButton.addEventListener("click", (e:Event) => this.resetGame());
   }
 
   componentDidUpdate() {
@@ -127,17 +142,24 @@ class WhosThatPokemon extends Component<any, State> {
     return(
       <div className="WhosThatPokemon">
         <h2>Who's That Pokemon?</h2>
-        <div className="guessing-area">
-          <img src={spriteUrl} alt={pokemonToGuess} className="sprite-img"></img>
-          <h3>Enter your guess below.</h3>
-          <input type="text" id="guess-box"></input>
-          <input type="button" id="guess-button" value="Guess!"></input>
-        </div>
-        <div className="correct-alert">{correctAlert}</div>
-        <div className="guess-counts">
-          <p>Correct Guesses: {correctGuesses}</p>
-          <p>Total Guesses: {guessCount}</p>
-          <p>Guess Accuracy: {guessAccuracy.toFixed(2)}%</p>
+        <div className="guess-top-container">
+          <div className="guess-left">
+            <img src={spriteUrl} alt={pokemonToGuess} className="sprite-img"></img>
+          </div>
+          <div className="guess-right">
+            <h3>Enter your guess below.</h3>
+            <div className="guess-area">
+              <input type="text" id="guess-box"></input>
+              <input type="button" id="guess-button" value="Guess!"></input>
+              <input type="button" id="reset-button" value="Reset Game"></input>
+            </div>
+            <div className="correct-alert">{correctAlert}</div>
+            <div className="guess-counts">
+              <p>Correct Guesses: {correctGuesses}</p>
+              <p>Total Guesses: {guessCount}</p>
+              <p>Guess Accuracy: {guessAccuracy.toFixed(2)}%</p>
+            </div>
+          </div>
         </div>
       </div>
     )

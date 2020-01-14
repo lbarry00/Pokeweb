@@ -15,6 +15,7 @@ type State = {
  };
 
 // Array for sorting pokemon types by "slot" (ie. fire before flying for Charizard)
+let name = "";
 let pokemonId = -1;
 let spriteUrl = "";
 let sortedTypesArray = [];
@@ -26,6 +27,7 @@ class Pokemon extends Component<Props, State> {
   constructor(props) {
     super(props);
 
+    name = "";
     spriteUrl = "";
     pokemonId = -1;
 
@@ -39,13 +41,16 @@ class Pokemon extends Component<Props, State> {
     // we don't need to do anything/display different data
     if (this.props.query === prevProps.query) {
       return;
+    } else if (this.props.query === "") {
+      return;
     } else {
+      name = "";
       pokemonId = -1;
       spriteUrl = "";
       sortedTypesArray = [];
       sortedAbilitiesArray = [];
       statsArray = [];
-      // clear the types array so it's reset for new
+      // clear the pokemon's info so it's reset for new
     }
 
     let query = this.props.query.toLowerCase();
@@ -70,12 +75,17 @@ class Pokemon extends Component<Props, State> {
   handleResponse = (error: any, response: any, body: any) => {
     // Detect any errors and alert user accordingly
     if (response.statusCode === 404) {
+      this.setState({ dataRetrieved: false });
       alert("Pokemon or Index # not found.");
       return;
     } else if (response.statusCode !== 200) {
+      this.setState({ dataRetrieved: false });
       alert("An error has occurred. Have you tried turning it off and turning it back on again? :)");
       return;
     }
+
+    // if it's not a 404, then the Pokemon is valid. Set the name
+    name = this.props.query;
 
     // The API response body is returned as a raw string.
     // Use JSON.parse() to change the response body (the data we want) into a JSON object that we can access
@@ -105,7 +115,9 @@ class Pokemon extends Component<Props, State> {
   }
 
   handleSprite(sprites: any) {
-    spriteUrl = sprites.front_default;
+    if (sprites.front_default) {
+      spriteUrl = sprites.front_default;
+    }
   }
 
   handleTypes(types: any) {
@@ -141,7 +153,7 @@ class Pokemon extends Component<Props, State> {
         // remove "-" and replace with spaces. capitalize each word properly
         statName = statName.replace("-", " ");
 
-        if (statName !== "hp") { // for all other stats, we want to capitalize words like normal
+        if (statName !== "hp") { // for all stats (except hp), we want to capitalize words like normal
 
             statName = statName.replace(/\b[a-z]/g, function(character) {
             return character.toUpperCase();
@@ -149,7 +161,6 @@ class Pokemon extends Component<Props, State> {
         } else { // for "hp", we want it all uppercase like this: "HP"
           statName = statName.toUpperCase();
         }
-
 
         statValue = stat.base_stat;
 
@@ -161,7 +172,7 @@ class Pokemon extends Component<Props, State> {
   render() {
     // detect whether data was retrieved successfully. Render components appropriately
     let spriteComponent = spriteUrl ? <img src={spriteUrl} className="sprite" alt={"Pixel art sprite of " + this.props.query} /> : null;
-    let nameIdComponent = this.state.dataRetrieved ? <NameId pokemonName={this.props.query} pokemonId= {pokemonId}/> : null;
+    let nameIdComponent = this.state.dataRetrieved ? <NameId pokemonName={name} pokemonId= {pokemonId}/> : null;
     let typeComponent = this.state.dataRetrieved ? <Types typesArray={sortedTypesArray} /> : null;
     let abilitiesComponent = this.state.dataRetrieved ? <Abilities abilities={sortedAbilitiesArray} /> : null;
     let statsComponent = this.state.dataRetrieved ? <Stats statsArray={statsArray} /> : null;

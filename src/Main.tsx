@@ -14,13 +14,15 @@ class Main extends Component {
     return (
       <HashRouter>
         <div>
-          <h1>POKÉWEB</h1>
-          <ul className="header">
+          <div className="header">
+          <ul className="header-nav">
             <li><NavLink exact to="/">Search</NavLink></li>
             <li><NavLink to="/searchbytype">Search By Type</NavLink></li>
             <li><NavLink to="/wtp">Who's That Pokemon</NavLink></li>
             <li><NavLink to="/about">About</NavLink></li>
           </ul>
+          <h1>POKÉWEB</h1>
+          </div>
           <div className="content">
             <Route exact path="/" component={Search}/>
             <Route path="/searchbytype" component={SearchByType}/>

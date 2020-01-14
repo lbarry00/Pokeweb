@@ -11,7 +11,7 @@ class Stats extends Component<Props, any> {
     const statsItems = this.props.statsArray.map( stat => (
       // Capitalize the name of the stat, and replace '-' with ' '
       // special-defense -> Special defense
-      <div>
+      <div key={stat}>
         <p className="stat-name">
         {(stat[0].charAt(0).toUpperCase() + stat[0].substring(1)).replace(/-/g, ' ')}
         </p>

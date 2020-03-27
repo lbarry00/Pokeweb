@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './css/index.scss';
-import Main from './Main';
+import Main from './js/Main';
 
 ReactDOM.render(
   <Main/>,
